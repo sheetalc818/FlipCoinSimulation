@@ -54,7 +54,7 @@ function getFlip()
 	for coin in ${!Combination[@]}
 	do
 		echo $coin ${Combination[$coin]}
-	done
+	done | sort -n -k2 | tail -1
 
 	#Calling calPercentage function
 	calPercentage $countHeads $countTails $flipCount
@@ -63,7 +63,7 @@ function getFlip()
 #Function to flip single, double or Triple coin
 function flipCoin()
 {
-	#Accepting input from user 
+	#Accepting input from user
 	function input()
 	{
 		read -p "How many coins you want flip:" coinCount
