@@ -3,7 +3,6 @@ echo "===FlipCoin Simulation==="
 
 #Variable
 flipCount=0;
-counter=0;
 countHeads=0;
 countTails=0;
 percentHead=0;
@@ -11,6 +10,9 @@ percentTail=0;
 
 #Dictionary
 declare -A Combination
+
+#Taking No. of Coin count from user
+read -p "How many Coins You want to flip :" coinCount
 
 #Taking input from user
 read -p "Enter How many times You want to flip Coin :" flipCount
@@ -25,29 +27,47 @@ function calPercentage()
 	echo "PercentTails: " $percentTail
 }
 
-#((RANDOM)) to find Heads or Tails
+#To find Heads or Tails for single coin
 function getFlip()
 {
+	#No. of coin
 	local count=$1
-	while [ $count -ne 0 ]
+	#Flip count
+	local no=$2
+   H=0
+   T=0
+
+	for (( i=0; i<$no; i++ ))
 	do
-		if [ $((RANDOM%2)) -eq 1 ]
-		then
-			result="HEAD"
-			Combination[$((counter++))]=$result
-			((countHeads++))
-		else
-			result="TAIL"
-			combination[$((counter++))]=$result
-			((countTails++))
-		fi
-		((count--))
+	  coin=""
+		for (( j=0; j<$count; j++ ))
+		do
+			if [ $((RANDOM%2)) -eq 1 ]
+			then
+				coin=$coin"H"
+				((countHeads++))
+			else
+				coin=$coin"T"
+				((countTails++))
+			fi
+		done
+		echo $coin
+		Combination[$coin]=$(( ${Combination[$coin]} + 1))
 	done
-	echo $countHeads $countTails
-	
+	echo "================================================"
+
+	#Printing value from dictionary
+	for coin in ${!Combination[@]}
+	do
+		echo $coin ${Combination[$coin]}
+	done
+
 	#Calling calPercentage function
 	calPercentage $countHeads $countTails $flipCount
 }
 
 #Calling getFlip function
-getFlip $flipCount
+getFlip $coinCount $flipCount
+
+
+
