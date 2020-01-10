@@ -11,12 +11,6 @@ percentTail=0;
 #Dictionary
 declare -A Combination
 
-#Taking No. of Coin count from user
-read -p "How many Coins You want to flip :" coinCount
-
-#Taking input from user
-read -p "Enter How many times You want to flip Coin :" flipCount
-
 #Calculating Percentage for Head and Tail
 function calPercentage()
 {
@@ -66,8 +60,50 @@ function getFlip()
 	calPercentage $countHeads $countTails $flipCount
 }
 
-#Calling getFlip function
-getFlip $coinCount $flipCount
+#Function to flip single, double or Triple coin
+function flipCoin()
+{
+	#Accepting input from user 
+	function input()
+	{
+		read -p "How many coins you want flip:" coinCount
+		read -p "How many times you want to flip coin:" flipCount
+	}
+	echo "==Select Operation from Menu=="
+	read -p "1.Singlet  2.Doublet  3.Triplet : " choice
 
+	#Case
+	case $choice in
+						1) input
+							if [ $coinCount -eq 1 ]
+							then
+								getFlip $coinCount $flipCount
+							else
+								echo "Flipping one coin at a time!"
+							fi
+							;;
+						2) input
+							if [ $coinCount -eq 2 ]
+							then
+								getFlip $coinCount $flipCount
+							else
+								echo "Flipping Two coins at a time!"
+							fi
+							;;
+						3) input
+							if [ $coinCount -eq 3 ]
+							then
+								getFlip $coinCount $flipCount
+							else
+								echo "Flipping Three coins at a time!"
+							fi
+							;;
+						*) echo "Select valid choice"
+							exit
+	esac
+}
+
+#Calling flipCoin function
+flipCoin
 
 
